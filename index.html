@@ -35,6 +35,19 @@
       href="img/favicon-16x16.png"
     />
     <link rel="manifest" href="/site.webmanifest" />
+    <script defer>
+      if ("serviceWorker" in navigator) {
+        window.onload = async () => {
+          try{
+            const reg = await navigator.serviceWorker.register("./sw.js");
+//             console.log("serviceWorker registered at: ",reg.scope);
+          }
+          catch (err) {
+            console.error(`Bothata ke bo ${err}`)
+          }
+        }
+      }
+    </script>
   </head>
   <body>
     <section id="home">
