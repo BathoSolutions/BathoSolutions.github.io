@@ -4,7 +4,7 @@ items = [
 "/index.html",
 "/css/main.css",
 "/img/blackhand.png",
-"/img/p6.png",
+"/img/p6.png"
 ];
 
 self.oninstall = e => {
