@@ -72,6 +72,7 @@ section {
 
   background-color: var(--swhite);
   width: 65vw;
+  max-height:80vh;
   margin: 20px auto;
   border-radius: 5px;
   padding:0 15px;
