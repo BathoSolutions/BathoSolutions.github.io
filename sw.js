@@ -1,0 +1,58 @@
+const cacheName = "BathoS",
+items = [
+"/",
+"/index.html",
+"/css/main.css",
+"/img/blackhand.png",
+"/img/p6.png",
+];
+
+self.oninstall = e => {
+  e.waitUntil(caches.open(cacheName)
+    .then(cache => {
+      // console.log("cache is open");
+      return cache.addAll(items);
+    }));
+
+  self.skipWaiting();
+  // console.log("serviceWorker installed Babaa!");
+}
+
+self.onactivate = e => {
+  caches.keys()
+    .then(cachesNames => {
+      return Promise.all(cachesNames.forEach(name => {
+        if (!cacheName.includes(name)) {
+          return caches.delete(name);
+        }
+      }))
+    }).catch(err => console.error(err));
+
+  // console.log("serviceWorker activated");
+}
+
+self.onfetch = e => {
+  e.respondWith(caches.match(e.request)
+    .then(cacheRes => {
+      if (cacheRes) {
+        return cacheRes;
+      }
+      return (fetch(e.request, {
+          credientials: "include"
+        })
+        .then(fetchRes => {
+          if (!fetchRes || fetchRes !== 200 || fetchRes !== "basic") {
+            return (fetchRes);
+          }
+          let cacheNewItem = fetchRes.clone();
+          caches.open(cacheName)
+            .then(cache => cache.put(cacheNewItem))
+            .catch(err => console.error(`Bothata ka cache: ${err}`));
+          return (fetchRes);
+        })
+        .catch(err => console.error(`Bothata ke fetch: ${err}`)));
+    }));
+  // console.log("serviceWorker if fetching some files");
+}
+
+
